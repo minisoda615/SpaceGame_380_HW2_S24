@@ -7,7 +7,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
+import Color from "../../Wolfie2D/DataTypes/Color";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import AsteroidAI from "../AI/AsteroidAI";
 import BoidBehavior from "../AI/ShipAI";
@@ -83,6 +83,9 @@ export default class Homework1_Scene extends Scene {
 		this.load.image("space", "hw2_assets/sprites/space.png");
 
 		/* ##### YOUR CODE GOES BELOW THIS LINE ##### */
+
+		//Load fleet spaceship spritesheet - HW1 spaceship
+		this.load.spritesheet("MK22", "hw2_assets/spritesheets/forgotten_MK22.json");
 	}
 
 	/*
@@ -502,6 +505,8 @@ export default class Homework1_Scene extends Scene {
 			}
 		}
 
+	
+
 		if(asteroid !== null){
 			// Bring this asteroid to life
 			asteroid.visible = true;
@@ -519,6 +524,9 @@ export default class Homework1_Scene extends Scene {
 			let dir = Vec2.UP.rotateCCW(Math.random()*Math.PI*2);
 			asteroid.setAIActive(true, {direction: dir});
 			AsteroidAI.SPEED += this.ASTEROID_SPEED_INC;
+
+			//color
+			
 
 			// Update the UI
 			this.numAsteroids += 1;
