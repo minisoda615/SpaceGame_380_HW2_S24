@@ -75,9 +75,8 @@ export default class GradientCircleShaderType extends RectShaderType {
 
 		//get color
 		const uniformcolorlocation = gl.getUniformLocation(program, "the_color");
-		const colorrandom = [1.0,1.0,0.0];
 		
-		gl.uniform3fv(uniformcolorlocation, colorrandom);
+		gl.uniform3f(uniformcolorlocation, options.color.r, options.color.g, options.color.b);
 		
 
 		// Draw the quad
