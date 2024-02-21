@@ -16,6 +16,7 @@ import { Homework2Animations, Homework2Event, Homework2Names, Homework2Shaders }
 import SpaceshipPlayerController from "../AI/SpaceshipPlayerController";
 import Circle from "../../Wolfie2D/DataTypes/Shapes/Circle";
 import GameOver from "./GameOver";
+import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 
 /**
  * In Wolfie2D, custom scenes extend the original scene class.
@@ -505,7 +506,18 @@ export default class Homework1_Scene extends Scene {
 			}
 		}
 
-	
+
+		//asteroid random colors
+		let colors: Color[] = [
+			new Color(255,0,0, 1),
+			new Color(255,255,0, 1),
+			new Color(0,255,0, 1),
+			new Color(255,0,255, 1),
+			new Color(0,255,255, 1),
+			new Color(0,0,255, 1),
+		];
+
+		asteroid.color = colors[Math.floor(Math.random()*6)]
 
 		if(asteroid !== null){
 			// Bring this asteroid to life
@@ -524,8 +536,7 @@ export default class Homework1_Scene extends Scene {
 			let dir = Vec2.UP.rotateCCW(Math.random()*Math.PI*2);
 			asteroid.setAIActive(true, {direction: dir});
 			AsteroidAI.SPEED += this.ASTEROID_SPEED_INC;
-
-			//color
+			
 			
 
 			// Update the UI
@@ -577,8 +588,32 @@ export default class Homework1_Scene extends Scene {
 	 */
 	handleScreenWrap(node: GameNode, viewportCenter: Vec2, paddedViewportSize: Vec2): void {
 		// Your code goes here:
+		
+		let vpsizex = paddedViewportSize.x /2;
+		let vpsizey =  paddedViewportSize.y / 2;
+
+
+		if(node.position.x  < viewportCenter.x - vpsizex){
+			node.position.x = node.position.x + paddedViewportSize.x;
+		}
+		else if(node.position.x > viewportCenter.x + vpsizex){
+			node.position.x = node.position.x - paddedViewportSize.x ;
+		}
+
+		if(node.position.y  < viewportCenter.y - vpsizey){
+			node.position.y = node.position.y + paddedViewportSize.y ;
+		}
+		else if(node.position.y  > viewportCenter.y + vpsizey){
+			node.position.y = node.position.y - paddedViewportSize.y ;
+		}
 
 	}
+
+
+
+
+
+
 
 	// HOMEWORK 2 - TODO
 	/**
@@ -607,7 +642,31 @@ export default class Homework1_Scene extends Scene {
 	 */
 	static checkAABBtoCircleCollision(aabb: AABB, circle: Circle): boolean {
 		// Your code goes here:
-		return false;
+		let xclosest = circle.center.x;
+    	let yclosest = circle.center.y;
+
+		if(circle.center.x < aabb.bottomLeft.x){
+    	   xclosest = aabb.bottomLeft.x;
+    	}
+    	else if(circle.center.x > aabb.bottomRight.x){
+    	   xclosest = aabb.bottomRight.x;
+    	}
+
+    	if(circle.center.y < aabb.bottomLeft.y){
+    	   yclosest = aabb.bottomLeft.y;
+    	}
+    	else if(circle.center.y > aabb.topLeft.y){
+    	   yclosest = aabb.topLeft.y;
+    	}
+
+    	let distance = Math.sqrt(Math.pow(circle.center.x - xclosest, 2) + Math.pow(circle.center.y - yclosest, 2));
+
+    	if(distance < circle.radius){
+    	   return true;
+    	}
+    	else{
+    	   return false;
+    	}
 	}
 
 }
