@@ -454,6 +454,7 @@ export default class Homework1_Scene extends Scene {
 						// Kill asteroid
 						asteroid.visible = false;
 						this.numAsteroids -= 1;
+						this.numAsteroidsDestroyed += 1;
 
 						// Update the gui
 						this.asteroidsLabel.text = `Asteroids: ${this.numAsteroids}`;
@@ -481,6 +482,8 @@ export default class Homework1_Scene extends Scene {
 					//kill asteroid
 					asteroid.visible = false;
 					this.numAsteroids -= 1;
+					this.numAsteroidsDestroyed += 1;
+
 					//update the gui of asteroids
 					this.asteroidsLabel.text = `Asteroids: ${this.numAsteroids}`;
 
@@ -490,7 +493,7 @@ export default class Homework1_Scene extends Scene {
 
 					//send event for damage
 					this.emitter.fireEvent(Homework2Event.PLAYER_DAMAGE, {shield: this.playerShield});
-					
+
 				}
 			}
 		}
