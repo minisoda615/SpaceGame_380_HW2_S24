@@ -478,7 +478,19 @@ export default class Homework1_Scene extends Scene {
 				// If the asteroid is spawned in and it overlaps the player
 				if(asteroid.visible && Homework1_Scene.checkAABBtoCircleCollision(<AABB>this.player.collisionShape, <Circle>asteroid.collisionShape)){
 					// Put your code here:
+					//kill asteroid
+					asteroid.visible = false;
+					this.numAsteroids -= 1;
+					//update the gui of asteroids
+					this.asteroidsLabel.text = `Asteroids: ${this.numAsteroids}`;
 
+					//update the gui of shield
+					this.playerShield -= 1;
+					this.shieldsLabel.text = `Shield: ${this.playerShield}`;
+
+					//send event for damage
+					this.emitter.fireEvent(Homework2Event.PLAYER_DAMAGE, {shield: this.playerShield});
+					
 				}
 			}
 		}
@@ -536,7 +548,6 @@ export default class Homework1_Scene extends Scene {
 			let dir = Vec2.UP.rotateCCW(Math.random()*Math.PI*2);
 			asteroid.setAIActive(true, {direction: dir});
 			AsteroidAI.SPEED += this.ASTEROID_SPEED_INC;
-			
 			
 
 			// Update the UI
