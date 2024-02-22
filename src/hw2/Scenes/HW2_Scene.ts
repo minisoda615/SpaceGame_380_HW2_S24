@@ -659,23 +659,27 @@ export default class Homework1_Scene extends Scene {
 		let xclosest = circle.center.x;
     	let yclosest = circle.center.y;
 
-		if(circle.center.x < aabb.bottomLeft.x){
-    	   xclosest = aabb.bottomLeft.x;
+		if(circle.center.x < aabb.center.x - aabb.halfSize.x){
+    	   xclosest = aabb.center.x - aabb.halfSize.x;
     	}
-    	else if(circle.center.x > aabb.bottomRight.x){
-    	   xclosest = aabb.bottomRight.x;
-    	}
-
-    	if(circle.center.y < aabb.bottomLeft.y){
-    	   yclosest = aabb.bottomLeft.y;
-    	}
-    	else if(circle.center.y > aabb.topLeft.y){
-    	   yclosest = aabb.topLeft.y;
+    	else if(circle.center.x > aabb.center.x + aabb.halfSize.x){
+    	   xclosest = aabb.center.x + aabb.halfSize.x;
     	}
 
-    	let distance = Math.sqrt(Math.pow(circle.center.x - xclosest, 2) + Math.pow(circle.center.y - yclosest, 2));
+    	if(circle.center.y < aabb.center.y - aabb.halfSize.y){
+    	   yclosest = aabb.center.y - aabb.halfSize.y;
+    	}
+    	else if(circle.center.y > aabb.center.y + aabb.halfSize.y){
+    	   yclosest = aabb.center.y + aabb.halfSize.y;
+    	}
 
-    	if(distance < circle.radius){
+		let alength2 = Math.pow(Math.abs(circle.center.x - xclosest), 2);
+		let blength2 = Math.pow(Math.abs(circle.center.y - yclosest),2);
+		
+
+    	let distance = Math.sqrt(alength2 + blength2);
+
+    	if(distance <= circle.radius){
     	   return true;
     	}
     	else{
